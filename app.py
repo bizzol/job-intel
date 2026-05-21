@@ -5,6 +5,8 @@
 from database.db import initialize_database
 from database.db import insert_job
 from database.db import job_exists
+from database.db import get_all_jobs
+from database.db import get_recent_jobs
 
 from scrapers.greenhouse import fetch_greenhouse_jobs
 from scrapers.lever import fetch_lever_jobs
@@ -80,7 +82,23 @@ def main():
         print(job["location"])
         print(job["url"])
         print(f"Score: {job['score']}")
+    
+    #stored_jobs = get_all_jobs()
+    stored_jobs = get_recent_jobs(20)
 
+    print("\nStored Jobs Database")
+    print("=" * 60)
+
+    for job in stored_jobs:
+
+        print("-" * 50)
+        print(f"Title: {job[0]}")
+        print(f"Company: {job[1]}")
+        print(f"Location: {job[2]}")
+        print(f"URL: {job[3]}")
+        print(f"Source: {job[4]}")
+        print(f"Score: {job[5]}")
+        print(f"Discovered: {job[6]}")
 
 if __name__ == "__main__":
     main()

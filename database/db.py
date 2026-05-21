@@ -90,3 +90,57 @@ def job_exists(url):
     conn.close()
 
     return result is not None
+    
+def get_all_jobs():
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        SELECT
+            title,
+            company,
+            location,
+            url,
+            source,
+            score,
+            discovered_at
+        FROM jobs
+        ORDER BY discovered_at DESC
+        """
+    )
+
+    jobs = cursor.fetchall()
+
+    conn.close()
+
+    return jobs
+    
+def get_recent_jobs(limit=25):
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        SELECT
+            title,
+            company,
+            location,
+            url,
+            source,
+            score,
+            discovered_at
+        FROM jobs
+        ORDER BY discovered_at DESC
+        LIMIT ?
+        """,
+        (limit,)
+    )
+
+    jobs = cursor.fetchall()
+
+    conn.close()
+
+    return jobs
